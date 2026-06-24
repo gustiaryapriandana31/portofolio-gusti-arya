@@ -3,25 +3,478 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* DARK MODE (DEFAULT) - Glassmorphism & Dark Navy */
+  --background: #080c18; /* Deep dark navy */
+  --foreground: #f8fafc; /* Slate 50 */
+  --white: #ffffff;
+  
+  --slate-950: #03060f;
+  --slate-900: #0a0e1a;
+  --slate-850: #101524;
+  --slate-800: #1b233a;
+  --slate-700: #334155;
+  --slate-600: #475569;
+  --slate-500: #64748b;
+  --slate-400: #94a3b8;
+  --slate-300: #cbd5e1;
+
+  --accent: #00ff99;
+  --accent-hover: #00e68a;
+  --accent-dark: #00331f;
+  --accent-rgb: 0, 255, 153;
+
+  --card-bg: rgba(10, 15, 30, 0.55);
+  --card-border: rgba(56, 189, 248, 0.15);
+  --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  --card-hover-border: rgba(0, 255, 153, 0.45);
+  --card-hover-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 255, 153, 0.15);
+  --card-radius: 1rem;
+  --card-blur: 16px;
+  
+  --neobrutalist-border-width: 1px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.light {
+  /* LIGHT MODE - Neobrutalism + Glassmorphism */
+  --background: #f1f5f9; /* Slate 100 base background */
+  --foreground: #0f172a; /* Slate 900 for high-contrast text */
+  --white: #0f172a; /* Convert white text to dark text */
+  
+  --slate-950: #ffffff;
+  --slate-900: rgba(255, 255, 255, 0.65);
+  --slate-850: #e2e8f0;
+  --slate-800: #000000;
+  --slate-700: #1e293b;
+  --slate-600: #334155;
+  --slate-500: #475569;
+  --slate-400: #334155;
+  --slate-300: #1e293b;
+
+  --accent: #ff2a5f; /* Playful coral neon pink */
+  --accent-hover: #e01548;
+  --accent-dark: #8c0022;
+  --accent-rgb: 255, 42, 95;
+
+  --card-bg: rgba(255, 255, 255, 0.55); /* White glassmorphism base */
+  --card-border: #000000; /* Bold borders */
+  --card-shadow: 5px 5px 0px #000000; /* Hard shadow */
+  --card-hover-border: #000000;
+  --card-hover-shadow: 8px 8px 0px #000000; /* Hard shadow offset */
+  --card-radius: 0.5rem; /* Boxier borders */
+  --card-blur: 12px;
+  
+  --neobrutalist-border-width: 2px;
+}
+
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--slate-950);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--slate-800);
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }
 
 @layer utilities {
+  .text-glow {
+    text-shadow: 0 0 10px rgba(var(--accent-rgb), 0.5), 0 0 20px rgba(var(--accent-rgb), 0.2);
+  }
+  
+  .border-glow {
+    box-shadow: 0 0 15px rgba(var(--accent-rgb), 0.2);
+  }
+
+  .border-glow-hover {
+    transition: all 0.3s ease;
+  }
+  .border-glow-hover:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.4);
+  }
+
   .text-balance {
     text-wrap: balance;
   }
 }
+
+.gradient-bg {
+  background: transparent;
+}
+
+.glow-card {
+  background: var(--card-bg);
+  border: var(--neobrutalist-border-width) solid var(--card-border);
+  backdrop-filter: blur(var(--card-blur));
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  transition: border-color 0.3s ease, border-width 0.3s ease, border-radius 0.3s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease;
+}
+
+.glow-card:hover {
+  border-color: var(--card-hover-border);
+  box-shadow: var(--card-hover-shadow);
+  transform: translateY(-4px) translateX(-2px);
+}
+
+/* Background floating blobs styling */
+.bg-blobs {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.bg-blob-1 {
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  width: 45vw;
+  height: 45vw;
+  background: radial-gradient(circle at center, rgba(56, 189, 248, 0.08) 0%, transparent 60%);
+  filter: blur(60px);
+  border-radius: 50%;
+  animation: float-slow 35s infinite alternate ease-in-out;
+}
+.bg-blob-2 {
+  position: absolute;
+  bottom: 15%;
+  right: 5%;
+  width: 40vw;
+  height: 40vw;
+  background: radial-gradient(circle at center, rgba(0, 255, 153, 0.06) 0%, transparent 60%);
+  filter: blur(70px);
+  border-radius: 50%;
+  animation: float-reverse-slow 40s infinite alternate ease-in-out;
+}
+.bg-blob-3 {
+  position: absolute;
+  top: 50%;
+  right: 35%;
+  width: 35vw;
+  height: 35vw;
+  background: radial-gradient(circle at center, rgba(139, 92, 246, 0.05) 0%, transparent 60%);
+  filter: blur(80px);
+  border-radius: 50%;
+  animation: float-slow 28s infinite alternate-reverse ease-in-out;
+}
+
+.light .bg-blob-1 {
+  background: radial-gradient(circle at center, rgba(255, 42, 95, 0.05) 0%, transparent 60%);
+}
+.light .bg-blob-2 {
+  background: radial-gradient(circle at center, rgba(56, 189, 248, 0.05) 0%, transparent 60%);
+}
+.light .bg-blob-3 {
+  background: radial-gradient(circle at center, rgba(234, 179, 8, 0.04) 0%, transparent 60%);
+}
+
+@keyframes float-slow {
+  0% { transform: translateY(0px) translateX(0px) scale(1); }
+  50% { transform: translateY(50px) translateX(30px) scale(1.08); }
+  100% { transform: translateY(-20px) translateX(-15px) scale(0.95); }
+}
+@keyframes float-reverse-slow {
+  0% { transform: translateY(0px) translateX(0px) scale(0.95); }
+  50% { transform: translateY(-40px) translateX(-30px) scale(1.05); }
+  100% { transform: translateY(30px) translateX(20px) scale(1); }
+}
+
+/* Custom adjustments for Neobrutalist buttons/cards in light mode */
+.light a.px-5.py-2, .light button[type="submit"] {
+  border-width: 2px !important;
+  border-color: #000000 !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+  border-radius: 0.5rem !important; /* Boxier buttons for neobrutalism */
+  transition: all 0.2s ease !important;
+}
+.light a.px-5.py-2:hover, .light button[type="submit"]:hover {
+  box-shadow: 1px 1px 0px #000000 !important;
+  transform: translate(2px, 2px) !important;
+}
+
+.light .w-full.sm\:w-auto {
+  border-width: 2px !important;
+  border-color: #000000 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+  border-radius: 0.5rem !important;
+  transition: all 0.2s ease !important;
+}
+.light .w-full.sm\:w-auto:hover {
+  box-shadow: 1px 1px 0px #000000 !important;
+  transform: translate(3px, 3px) !important;
+}
+
+.light input, .light textarea, .light select {
+  border-width: 2px !important;
+  border-color: #000000 !important;
+  border-radius: 0.5rem !important;
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  color: #0f172a !important;
+}
+.light input:focus, .light textarea:focus, .light select:focus {
+  box-shadow: 3px 3px 0px #000000 !important;
+}
+
+/* FORCE DARK MODE (ALWAYS DARK & GREEN TERMINAL FOR ADMIN) */
+.force-dark {
+  --background: #050811;
+  --foreground: #e2e8f0; /* Crisp off-white text instead of solid green */
+  --white: #ffffff;      /* Keep headings crisp white */
+  
+  --slate-950: #020a07;
+  --slate-900: #05140e;
+  --slate-850: #0b2016;
+  --slate-800: #102a1e;
+  --slate-700: #153c2a;
+  --slate-600: #1a4d36;
+  --slate-500: #00995c;
+  --slate-400: #00cc7a; /* Medium green */
+  --slate-300: #70ffc2; /* Mint green */
+
+  --accent: #00ff99;
+  --accent-hover: #33ffa6;
+  --accent-dark: #00331f;
+  --accent-rgb: 0, 255, 153;
+
+  --card-bg: rgba(5, 20, 14, 0.7);
+  --card-border: rgba(0, 255, 153, 0.15);
+  --card-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+  --card-hover-border: rgba(0, 255, 153, 0.45);
+  --card-hover-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 255, 153, 0.25);
+  --card-radius: 1rem;
+  --card-blur: 16px;
+  
+  --neobrutalist-border-width: 1px;
+}
+
+.force-dark input,
+.force-dark textarea,
+.force-dark select,
+.force-dark option {
+  border-width: 1px !important;
+  border-color: var(--slate-800) !important;
+  border-radius: 0.5rem !important;
+  background-color: var(--slate-900) !important;
+  color: var(--slate-300) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.force-dark input::placeholder,
+.force-dark textarea::placeholder {
+  color: var(--slate-500) !important;
+}
+
+.force-dark input:focus,
+.force-dark textarea:focus,
+.force-dark select:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 10px rgba(0, 255, 153, 0.2) !important;
+}
+
+.force-dark a.px-5.py-2,
+.force-dark button[type="submit"] {
+  border-width: 1px !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 10px rgba(0, 255, 153, 0.2) !important;
+  border-radius: 0.5rem !important;
+  background-color: var(--accent) !important;
+  color: #03060f !important;
+  transform: none !important;
+}
+
+.force-dark a.px-5.py-2:hover,
+.force-dark button[type="submit"]:hover {
+  background-color: var(--accent-hover) !important;
+  box-shadow: 0 0 15px rgba(0, 255, 153, 0.4) !important;
+  transform: none !important;
+}
+
+/* Styling for Rich Text HTML Content */
+.rich-text-renderer ul {
+  list-style-type: disc !important;
+  padding-left: 1.25rem !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+  display: block !important;
+}
+
+.rich-text-renderer ol {
+  list-style-type: decimal !important;
+  padding-left: 1.25rem !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+  display: block !important;
+}
+
+.rich-text-renderer li {
+  margin-bottom: 0.25rem !important;
+  display: list-item !important;
+}
+
+.rich-text-renderer a {
+  color: var(--accent) !important;
+  text-decoration: underline !important;
+}
+
+.rich-text-renderer a:hover {
+  color: var(--accent-hover) !important;
+}
+
+.rich-text-renderer pre {
+  background-color: rgba(2, 10, 7, 0.85) !important;
+  border: 1px solid rgba(0, 255, 153, 0.2) !important;
+  padding: 0.75rem !important;
+  border-radius: 0.5rem !important;
+  font-family: var(--font-ibm-plex-mono), monospace !important;
+  font-size: 0.8rem !important;
+  overflow-x: auto !important;
+  margin: 0.75rem 0 !important;
+  color: #a78bfa !important; /* light purple style for code snippets */
+}
+
+.rich-text-renderer code {
+  font-family: var(--font-ibm-plex-mono), monospace !important;
+  font-size: 0.8rem !important;
+  background-color: rgba(2, 10, 7, 0.6) !important;
+  padding: 0.125rem 0.25rem !important;
+  border-radius: 0.25rem !important;
+  color: #fbbf24 !important; /* gold-yellow inline code highlight */
+}
+
+/* styling rules inside custom rich text editor */
+.rich-text-content {
+  outline: none;
+}
+.rich-text-content[data-placeholder]:empty:before {
+  content: attr(data-placeholder);
+  color: var(--slate-600);
+}
+.rich-text-content ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin: 0.5rem 0;
+}
+.rich-text-content ol {
+  list-style-type: decimal;
+  padding-left: 1.25rem;
+  margin: 0.5rem 0;
+}
+.rich-text-content li {
+  margin-bottom: 0.25rem;
+}
+.rich-text-content a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+.rich-text-content pre {
+  background-color: #020a07;
+  border: 1px solid #102a1e;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  font-family: monospace;
+  margin: 0.5rem 0;
+  overflow-x: auto;
+}
+
+/* Override default content text colors inside force-dark dashboard to be off-white */
+.force-dark .rich-text-renderer,
+.force-dark .rich-text-content,
+.force-dark p.text-slate-400,
+.force-dark ul.text-slate-400,
+.force-dark li.text-slate-400 {
+  color: #cbd5e1 !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; backdrop-filter: blur(0px); }
+  to { opacity: 1; backdrop-filter: blur(12px); }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.animate-scale-up {
+  animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Premium Tilted Certification Cards with hover straightening */
+.cert-card-tilt-left {
+  transform: rotate(-2.5deg) !important;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease !important;
+}
+
+.cert-card-tilt-right {
+  transform: rotate(2.5deg) !important;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease !important;
+}
+
+.cert-card-tilt-left:hover,
+.cert-card-tilt-right:hover {
+  transform: rotate(0deg) scale(1.04) !important;
+  z-index: 20 !important;
+}
+
+/* Custom scrollbar for Certifications horizontal track */
+#certifications-track {
+  scrollbar-width: thin !important;
+  scrollbar-color: var(--accent) rgba(15, 23, 42, 0.4) !important;
+}
+
+#certifications-track::-webkit-scrollbar {
+  height: 6px !important;
+  display: block !important;
+}
+
+#certifications-track::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.4) !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(255, 255, 255, 0.03) !important;
+}
+
+#certifications-track::-webkit-scrollbar-thumb {
+  background: var(--accent) !important;
+  border-radius: 10px !important;
+}
+
+#certifications-track::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-hover) !important;
+}
+
+
+
+
+
+
+
+

@@ -1,0 +1,101 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  name      String
+  comment   String
+  rating    Int
+  likes     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Education {
+  id          String   @id @default(uuid())
+  degree      String
+  institution String
+  period      String
+  createdAt   DateTime @default(now())
+}
+
+model Experience {
+  id        String   @id @default(uuid())
+  title     String
+  company   String
+  period    String
+  points    String[]
+  createdAt DateTime @default(now())
+}
+
+model Skill {
+  id        String   @id @default(uuid())
+  name      String
+  level     Int
+  label     String
+  category  String   // 'hard' | 'language'
+  createdAt DateTime @default(now())
+}
+
+model SoftSkill {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+}
+
+model Hobby {
+  id        String   @id @default(uuid())
+  name      String
+  icon      String   // Emoji or icon class
+  createdAt DateTime @default(now())
+}
+
+model Certification {
+  id        String   @id @default(uuid())
+  title     String
+  issuer    String
+  period    String
+  link      String
+  image     String?  // URL/Path gambar sertifikat (opsional)
+  createdAt DateTime @default(now())
+}
+
+model Achievement {
+  id          String   @id @default(uuid())
+  title       String
+  event       String
+  period      String
+  description String
+  images      String[] // URL/Path foto-foto prestasi (multiple)
+  createdAt   DateTime @default(now())
+}
+
+model Project {
+  id           String   @id @default(uuid())
+  name         String
+  duration     String
+  description  String
+  link         String?
+  purpose      String
+  images       String[] // URL/Path foto-foto proyek (multiple)
+  techIds      String[] @default([]) // Array of selected Technology IDs
+  createdAt    DateTime @default(now())
+}
+
+model Technology {
+  id        String   @id @default(uuid())
+  name      String
+  logo      String   // Devicon class name (e.g. 'devicon-react-original colored') or image URL
+  category  String   // 'language' | 'framework' | 'library' | 'tool' | 'ai' | 'other'
+  createdAt DateTime @default(now())
+}
+
