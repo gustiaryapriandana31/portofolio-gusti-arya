@@ -292,7 +292,7 @@ export default function TechStackTab({ showMsg }) {
 
               {techList.length === 0 && (
                 <div className="col-span-full text-center py-16 border border-dashed border-slate-800 rounded-lg text-slate-500 text-xs">
-                  Belum ada data teknologi yang dibuat. Mulai dengan menekan tombol "Tambah Teknologi" di atas.
+                  Belum ada data teknologi yang dibuat. Mulai dengan menekan tombol &quot;Tambah Teknologi&quot; di atas.
                 </div>
               )}
             </div>

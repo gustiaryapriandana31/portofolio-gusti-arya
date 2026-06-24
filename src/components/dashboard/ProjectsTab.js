@@ -312,7 +312,7 @@ export default function ProjectsTab({ showMsg }) {
                           );
                         })}
                         {availableTechs.length === 0 && (
-                          <p className="col-span-full text-center text-slate-500 py-4">Belum ada data teknologi. Silakan tambahkan di menu "Tech Stack" terlebih dahulu.</p>
+                          <p className="col-span-full text-center text-slate-500 py-4">Belum ada data teknologi. Silakan tambahkan di menu &quot;Tech Stack&quot; terlebih dahulu.</p>
                         )}
                       </div>
                     )}
