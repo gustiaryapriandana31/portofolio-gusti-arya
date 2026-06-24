@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
+
 // In-memory mock store for demo fallback when DATABASE_URL is not set
 let mockFeedbacks = [
   {

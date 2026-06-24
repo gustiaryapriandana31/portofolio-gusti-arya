@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { cookies } from "next/headers";
 
+export const dynamic = "force-dynamic";
+
 const isDbConfigured = () => {
   return !!process.env.DATABASE_URL && process.env.DATABASE_URL !== "";
 };
