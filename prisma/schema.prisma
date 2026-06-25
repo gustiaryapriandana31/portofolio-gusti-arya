@@ -76,6 +76,7 @@ model Achievement {
   period      String
   description String
   images      String[] // URL/Path foto-foto prestasi (multiple)
+  link        String?  // URL/Link bukti prestasi atau sertifikat (opsional)
   createdAt   DateTime @default(now())
 }
 

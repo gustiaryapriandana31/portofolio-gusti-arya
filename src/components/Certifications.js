@@ -1,12 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
-import { LuAward, LuExternalLink, LuCalendar, LuTrophy, LuX, LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import { LuAward, LuExternalLink, LuCalendar, LuTrophy, LuX, LuChevronLeft, LuChevronRight, LuEye } from "react-icons/lu";
 import { motion } from "framer-motion";
 
 export default function Certifications() {
   const [data, setData] = useState({ certifications: [], achievements: [] });
   const [loading, setLoading] = useState(true);
   const [selectedCert, setSelectedCert] = useState(null);
+  const [selectedAchForPreview, setSelectedAchForPreview] = useState(null);
+  const [activeImageIdx, setActiveImageIdx] = useState(0);
 
   useEffect(() => {
     fetch("/api/certifications")
@@ -69,8 +71,17 @@ export default function Certifications() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="glow-card p-6 border border-slate-800/80 relative overflow-hidden flex flex-col"
+                  className="glow-card p-6 border border-slate-800/80 relative overflow-hidden flex flex-col justify-between h-full"
                 >
+                  {/* Gold Trophy Icon on Top Right */}
+                  <div
+                    className={`absolute top-6 right-6 text-amber-400 drop-shadow-[0_0_8px_rgba(245,158,11,0.4)] shrink-0 z-10 ${
+                      ach.images && ach.images.length > 0 ? "bg-slate-950/80 p-1.5 rounded-full border border-slate-800" : ""
+                    }`}
+                  >
+                    <LuTrophy size={ach.images && ach.images.length > 0 ? 14 : 22} className="animate-pulse-slow" />
+                  </div>
+
                   {/* Achievement Image Column */}
                   {ach.images && ach.images.length > 0 && (
                     <div className="w-full mb-4 shrink-0">
@@ -93,25 +104,54 @@ export default function Certifications() {
                     </div>
                   )}
 
-                  {/* Decorative background trophy icon */}
-                  {(!ach.images || ach.images.length === 0) && (
-                    <div className="absolute right-2 bottom-2 text-slate-800/10 pointer-events-none">
-                      <LuTrophy size={100} />
+                  {/* Text Details */}
+                  <div className="flex-1 pr-6 flex flex-col">
+                    <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-[10px] font-ibm-plex-mono text-slate-400 w-fit mb-4">
+                      <LuCalendar size={12} className="text-neon-green" />
+                      <span>{ach.period}</span>
+                    </div>
+                    
+                    <h5 className="font-poppins font-bold text-white text-base mb-1 hover:text-neon-green transition-colors">
+                      {ach.title}
+                    </h5>
+                    <p className="text-xs text-neon-green font-medium mb-3">{ach.event}</p>
+                    <p className="text-slate-400 text-xs leading-relaxed font-poppins mb-4">
+                      {ach.description}
+                    </p>
+                  </div>
+
+                  {/* Actions Footer */}
+                  {((ach.link && ach.link !== "#") || (ach.images && ach.images.length > 0)) && (
+                    <div className="pt-4 border-t border-slate-900/60 flex items-center justify-between gap-4 text-xs font-ibm-plex-mono shrink-0">
+                      <div>
+                        {ach.link && ach.link !== "#" && (
+                          <a
+                            href={ach.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-slate-400 hover:text-neon-green transition-colors flex items-center gap-1.5"
+                          >
+                            <span>Buka Link</span>
+                            <LuExternalLink size={12} />
+                          </a>
+                        )}
+                      </div>
+                      
+                      {ach.images && ach.images.length > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSelectedAchForPreview(ach);
+                            setActiveImageIdx(0);
+                          }}
+                          className="px-3.5 py-1.5 rounded-lg bg-accent/10 border border-accent/20 text-accent font-bold hover:bg-accent hover:text-slate-950 transition-all font-poppins text-xs cursor-pointer flex items-center gap-1"
+                        >
+                          <LuEye size={12} />
+                          <span>Lihat Sertifikat</span>
+                        </button>
+                      )}
                     </div>
                   )}
-
-                  <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-[10px] font-ibm-plex-mono text-slate-400 w-fit mb-4">
-                    <LuCalendar size={12} className="text-neon-green" />
-                    <span>{ach.period}</span>
-                  </div>
-                  
-                  <h5 className="font-poppins font-bold text-white text-base mb-1 hover:text-neon-green transition-colors">
-                    {ach.title}
-                  </h5>
-                  <p className="text-xs text-neon-green font-medium mb-3">{ach.event}</p>
-                  <p className="text-slate-400 text-xs leading-relaxed font-poppins">
-                    {ach.description}
-                  </p>
                 </motion.div>
               ))
             )}
@@ -324,6 +364,101 @@ export default function Certifications() {
                     className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg font-poppins font-bold text-xs tracking-wide transition-all bg-accent text-slate-950 hover:bg-accent-hover border border-transparent shadow-lg"
                   >
                     <span>Credential URL</span>
+                    <LuExternalLink size={14} />
+                  </a>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Detailed Side-by-Side Modal for selected Achievement */}
+      {selectedAchForPreview && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fade-in"
+          onClick={() => setSelectedAchForPreview(null)}
+        >
+          <div
+            className="relative max-w-4xl w-full bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl flex flex-col md:flex-row text-slate-300 font-poppins animate-scale-up"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedAchForPreview(null)}
+              className="absolute top-4 right-4 p-2 rounded-full bg-slate-950/80 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-900 transition-all z-30"
+              title="Tutup (Esc)"
+            >
+              <LuX size={18} />
+            </button>
+
+            {/* Left Column: Image Viewer */}
+            <div className="md:w-3/5 bg-slate-950 flex flex-col items-center justify-center p-6 border-b md:border-b-0 md:border-r border-slate-800/80">
+              <div className="w-full h-full min-h-[250px] max-h-[50vh] flex items-center justify-center relative">
+                <img
+                  src={selectedAchForPreview.images[activeImageIdx]}
+                  alt={selectedAchForPreview.title}
+                  className="max-w-full max-h-[40vh] object-contain rounded border border-slate-800 shadow-lg"
+                />
+              </div>
+
+              {/* Thumbnails if multiple images */}
+              {selectedAchForPreview.images.length > 1 && (
+                <div className="flex gap-2 mt-4 overflow-x-auto max-w-full pb-1">
+                  {selectedAchForPreview.images.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveImageIdx(idx)}
+                      className={`w-12 h-12 rounded border overflow-hidden shrink-0 transition-all ${
+                        activeImageIdx === idx ? "border-accent scale-105" : "border-slate-800 hover:border-slate-600"
+                      }`}
+                    >
+                      <img src={img} alt="thumb" className="object-cover w-full h-full" />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Right Column: Metadata info */}
+            <div className="md:w-2/5 p-6 md:p-8 flex flex-col justify-between space-y-6">
+              <div className="space-y-5">
+                <div>
+                  <span className="text-[9px] font-ibm-plex-mono text-slate-500 uppercase tracking-widest block mb-1">
+                    Detail Prestasi Lomba
+                  </span>
+                  <h3 className="text-base md:text-lg font-bold font-poppins text-white leading-snug">
+                    {selectedAchForPreview.title}
+                  </h3>
+                  <p className="text-xs font-semibold text-neon-green mt-1 uppercase tracking-wider">
+                    {selectedAchForPreview.event}
+                  </p>
+                </div>
+
+                <div className="space-y-4 pt-4 border-t border-slate-850 text-xs">
+                  <div className="space-y-1">
+                    <span className="text-[9px] uppercase font-ibm-plex-mono text-slate-500 font-bold tracking-wider block">Tanggal Event</span>
+                    <p className="text-xs text-slate-300">{selectedAchForPreview.period}</p>
+                  </div>
+
+                  <div className="space-y-1">
+                    <span className="text-[9px] uppercase font-ibm-plex-mono text-slate-500 font-bold tracking-wider block">Deskripsi Prestasi</span>
+                    <p className="text-xs text-slate-400 leading-relaxed max-h-[20vh] overflow-y-auto pr-1">
+                      {selectedAchForPreview.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {selectedAchForPreview.link && selectedAchForPreview.link !== "#" && (
+                <div className="pt-4 border-t border-slate-850">
+                  <a
+                    href={selectedAchForPreview.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-lg font-poppins font-bold text-xs tracking-wide transition-all bg-accent text-slate-950 hover:bg-accent-hover border border-transparent shadow-lg"
+                  >
+                    <span>Link Verifikasi / Sertifikat</span>
                     <LuExternalLink size={14} />
                   </a>
                 </div>

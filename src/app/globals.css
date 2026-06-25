@@ -32,16 +32,29 @@
   --card-blur: 16px;
   
   --neobrutalist-border-width: 1px;
+
+  --accent-blue: #3b82f6;
+  --accent-blue-hover: #2563eb;
+  --accent-blue-rgb: 59, 130, 246;
+
+  --gradient-from: var(--accent);
+  --gradient-to: #34d399;
+
+  --radial-glow-1: rgba(0, 255, 153, 0.06);
+  --radial-glow-2: rgba(0, 255, 153, 0.04);
+
+  --orbit-outer-color: var(--accent);
+  --orbit-inner-color: rgba(0, 255, 153, 0.7);
 }
 
 .light {
-  /* LIGHT MODE - Neobrutalism + Glassmorphism */
-  --background: #f1f5f9; /* Slate 100 base background */
+  /* LIGHT MODE - Neobrutalism + Glassmorphism (Blue & Orange) */
+  --background: #f0f3fa; /* Soft cool blue-gray background */
   --foreground: #0f172a; /* Slate 900 for high-contrast text */
   --white: #0f172a; /* Convert white text to dark text */
   
   --slate-950: #ffffff;
-  --slate-900: rgba(255, 255, 255, 0.65);
+  --slate-900: rgba(255, 255, 255, 0.75);
   --slate-850: #e2e8f0;
   --slate-800: #000000;
   --slate-700: #1e293b;
@@ -50,20 +63,33 @@
   --slate-400: #334155;
   --slate-300: #1e293b;
 
-  --accent: #ff2a5f; /* Playful coral neon pink */
-  --accent-hover: #e01548;
-  --accent-dark: #8c0022;
-  --accent-rgb: 255, 42, 95;
+  --accent: #ff6b00; /* Vibrant Orange */
+  --accent-hover: #ea580c;
+  --accent-dark: #c2410c;
+  --accent-rgb: 249, 115, 22;
 
-  --card-bg: rgba(255, 255, 255, 0.55); /* White glassmorphism base */
+  --accent-blue: #2563eb; /* Royal Blue */
+  --accent-blue-hover: #1d4ed8;
+  --accent-blue-rgb: 37, 99, 235;
+
+  --card-bg: rgba(255, 255, 255, 0.75); /* Clean white glass background */
   --card-border: #000000; /* Bold borders */
-  --card-shadow: 5px 5px 0px #000000; /* Hard shadow */
+  --card-shadow: 6px 6px 0px var(--accent-blue); /* Royal Blue shadow */
   --card-hover-border: #000000;
-  --card-hover-shadow: 8px 8px 0px #000000; /* Hard shadow offset */
+  --card-hover-shadow: 10px 10px 0px var(--accent); /* Vibrant Orange shadow on hover */
   --card-radius: 0.5rem; /* Boxier borders */
   --card-blur: 12px;
   
   --neobrutalist-border-width: 2px;
+
+  --gradient-from: var(--accent-blue);
+  --gradient-to: var(--accent);
+
+  --radial-glow-1: rgba(37, 99, 235, 0.09); /* Blue */
+  --radial-glow-2: rgba(249, 115, 22, 0.07); /* Orange */
+
+  --orbit-outer-color: var(--accent);
+  --orbit-inner-color: var(--accent-blue);
 }
 
 * {
@@ -183,13 +209,13 @@ body {
 }
 
 .light .bg-blob-1 {
-  background: radial-gradient(circle at center, rgba(255, 42, 95, 0.05) 0%, transparent 60%);
+  background: radial-gradient(circle at center, rgba(37, 99, 235, 0.08) 0%, transparent 60%);
 }
 .light .bg-blob-2 {
-  background: radial-gradient(circle at center, rgba(56, 189, 248, 0.05) 0%, transparent 60%);
+  background: radial-gradient(circle at center, rgba(249, 115, 22, 0.08) 0%, transparent 60%);
 }
 .light .bg-blob-3 {
-  background: radial-gradient(circle at center, rgba(234, 179, 8, 0.04) 0%, transparent 60%);
+  background: radial-gradient(circle at center, rgba(37, 99, 235, 0.04) 0%, transparent 60%);
 }
 
 @keyframes float-slow {
@@ -207,24 +233,24 @@ body {
 .light a.px-5.py-2, .light button[type="submit"] {
   border-width: 2px !important;
   border-color: #000000 !important;
-  box-shadow: 3px 3px 0px #000000 !important;
+  box-shadow: 3px 3px 0px var(--accent-blue) !important;
   border-radius: 0.5rem !important; /* Boxier buttons for neobrutalism */
   transition: all 0.2s ease !important;
 }
 .light a.px-5.py-2:hover, .light button[type="submit"]:hover {
-  box-shadow: 1px 1px 0px #000000 !important;
+  box-shadow: 1px 1px 0px var(--accent) !important;
   transform: translate(2px, 2px) !important;
 }
 
 .light .w-full.sm\:w-auto {
   border-width: 2px !important;
   border-color: #000000 !important;
-  box-shadow: 4px 4px 0px #000000 !important;
+  box-shadow: 4px 4px 0px var(--accent-blue) !important;
   border-radius: 0.5rem !important;
   transition: all 0.2s ease !important;
 }
 .light .w-full.sm\:w-auto:hover {
-  box-shadow: 1px 1px 0px #000000 !important;
+  box-shadow: 1px 1px 0px var(--accent) !important;
   transform: translate(3px, 3px) !important;
 }
 
@@ -236,7 +262,7 @@ body {
   color: #0f172a !important;
 }
 .light input:focus, .light textarea:focus, .light select:focus {
-  box-shadow: 3px 3px 0px #000000 !important;
+  box-shadow: 3px 3px 0px var(--accent) !important;
 }
 
 /* FORCE DARK MODE (ALWAYS DARK & GREEN TERMINAL FOR ADMIN) */
@@ -480,6 +506,19 @@ body {
 .scrollbar-none {
   -ms-overflow-style: none !important;
   scrollbar-width: none !important;
+}
+
+/* Custom Utility Classes for Brand gradients & glows */
+.text-brand-gradient {
+  background-image: linear-gradient(to right, var(--gradient-from), var(--gradient-to));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-radial-glows {
+  background-image: 
+    radial-gradient(circle at 30% 30%, var(--radial-glow-1), transparent 50%),
+    radial-gradient(circle at 70% 70%, var(--radial-glow-2), transparent 50%);
 }
 
 

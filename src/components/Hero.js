@@ -7,8 +7,7 @@ export default function Hero() {
   return (
     <section id="home" className="relative min-h-screen pt-24 pb-16 flex flex-col justify-center items-center overflow-hidden">
       {/* Background radial glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(0,255,153,0.06),transparent_50%)] pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(0,255,153,0.04),transparent_50%)] pointer-events-none" />
+      <div className="absolute inset-0 hero-radial-glows pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 w-full grid grid-cols-1 md:grid-cols-12 gap-12 items-center z-10">
         
@@ -31,7 +30,7 @@ export default function Hero() {
             className="text-4xl sm:text-5xl lg:text-6xl font-audiowide font-bold text-white tracking-tight mb-4 leading-tight"
           >
             M. GUSTI ARYA <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-neon-green to-emerald-400">
+            <span className="text-brand-gradient font-bold">
               PRIANDANA, S.KOM
             </span>
           </motion.h1>
@@ -53,15 +52,15 @@ export default function Hero() {
             className="flex flex-wrap justify-center md:justify-start gap-4 mb-8 font-ibm-plex-mono text-xs text-slate-400"
           >
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/50 border border-slate-800">
-              <LuMapPin size={14} className="text-neon-green" />
+              <LuMapPin size={14} className="text-[var(--orbit-inner-color)]" />
               <span>Ogan Ilir, Sumatera Selatan</span>
             </div>
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/50 border border-slate-800">
-              <LuMail size={14} className="text-neon-green" />
+              <LuMail size={14} className="text-[var(--orbit-outer-color)]" />
               <span>gustiaryapriandana@gmail.com</span>
             </div>
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/50 border border-slate-800">
-              <LuPhone size={14} className="text-neon-green" />
+              <LuPhone size={14} className="text-[var(--orbit-inner-color)]" />
               <span>082281963857</span>
             </div>
           </motion.div>
@@ -98,10 +97,10 @@ export default function Hero() {
           >
             <span className="text-xs font-ibm-plex-mono text-slate-500 uppercase tracking-widest mr-2">Follow Me:</span>
             {[
-              { icon: LuGithub, href: "https://github.com/gustiaryapri", label: "Github" },
-              { icon: LuInstagram, href: "https://instagram.com/gustiaryapri", label: "Instagram" },
-              { icon: LuFacebook, href: "https://facebook.com/gustiaryapriandana31", label: "Facebook" },
-              { icon: LuTwitter, href: "https://twitter.com/gustiaryapri", label: "Twitter" },
+              { icon: LuGithub, href: "https://github.com/gustiaryapri", label: "Github", color: "blue" },
+              { icon: LuInstagram, href: "https://instagram.com/gustiaryapri", label: "Instagram", color: "orange" },
+              { icon: LuFacebook, href: "https://facebook.com/gustiaryapriandana31", label: "Facebook", color: "blue" },
+              { icon: LuTwitter, href: "https://twitter.com/gustiaryapri", label: "Twitter", color: "orange" },
             ].map((soc, idx) => (
               <a
                 key={idx}
@@ -109,7 +108,11 @@ export default function Hero() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={soc.label}
-                className="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 text-slate-450 hover:text-neon-green hover:border-neon-green flex items-center justify-center transition-all duration-300 hover:scale-110"
+                className={`w-10 h-10 rounded-full bg-slate-900 border border-slate-800 text-slate-450 flex items-center justify-center transition-all duration-300 hover:scale-110 ${
+                  soc.color === "blue"
+                    ? "hover:text-[var(--accent-blue)] hover:border-[var(--accent-blue)]"
+                    : "hover:text-[var(--accent)] hover:border-[var(--accent)]"
+                }`}
               >
                 <soc.icon size={18} />
               </a>
@@ -148,14 +151,13 @@ export default function Hero() {
                 cx="50"
                 cy="50"
                 r="46"
-                stroke="currentColor"
+                stroke="var(--orbit-outer-color)"
                 strokeWidth="0.75"
                 strokeDasharray="8 6 12 8"
                 strokeLinecap="round"
                 opacity="0.7"
-                className="text-neon-green"
               />
-              <circle cx="96" cy="50" r="2.5" fill="currentColor" className="text-neon-green shadow-lg shadow-neon-green" />
+              <circle cx="96" cy="50" r="2.5" fill="var(--orbit-outer-color)" />
             </motion.svg>
 
             {/* Inner Orbit Line 2 */}
@@ -169,14 +171,13 @@ export default function Hero() {
                 cx="50"
                 cy="50"
                 r="40"
-                stroke="currentColor"
+                stroke="var(--orbit-inner-color)"
                 strokeWidth="0.5"
                 strokeDasharray="2 10 4 8"
                 strokeLinecap="round"
                 opacity="0.5"
-                className="text-neon-green/70"
               />
-              <circle cx="10" cy="50" r="1.5" fill="currentColor" className="text-neon-green/70" />
+              <circle cx="10" cy="50" r="1.5" fill="var(--orbit-inner-color)" />
             </motion.svg>
           </div>
         </div>

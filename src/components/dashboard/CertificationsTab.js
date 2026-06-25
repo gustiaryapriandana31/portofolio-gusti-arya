@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { LuPlus, LuPencil, LuTrash2, LuX, LuUpload } from "react-icons/lu";
+import { LuPlus, LuPencil, LuTrash2, LuX, LuUpload, LuEye, LuExternalLink } from "react-icons/lu";
 
 export default function CertificationsTab({ showMsg }) {
   const [certsData, setCertsData] = useState({ certifications: [], achievements: [] });
@@ -21,6 +21,7 @@ export default function CertificationsTab({ showMsg }) {
   const [certImages, setCertImages] = useState([]); // array of strings (paths)
   
   const [uploadingFiles, setUploadingFiles] = useState(false);
+  const [selectedPreviewImage, setSelectedPreviewImage] = useState(null);
 
   const fetchCerts = async () => {
     try {
@@ -71,6 +72,7 @@ export default function CertificationsTab({ showMsg }) {
       setCertEvent(item.event);
       setCertDesc(item.description);
       setCertImages(item.images || []);
+      setCertLink(item.link || "");
     }
   };
 
@@ -147,6 +149,7 @@ export default function CertificationsTab({ showMsg }) {
         event: certEvent,
         description: certDesc,
         images: certImages,
+        link: certLink || null,
       };
     }
 
@@ -339,16 +342,28 @@ export default function CertificationsTab({ showMsg }) {
                   )}
 
                   {certType === "achievement" && (
-                    <div className="md:col-span-2 space-y-1.5">
-                      <label className="text-xs text-slate-300 font-ibm-plex-mono uppercase tracking-wider block font-bold">Nama Event / Penyelenggara</label>
-                      <input
-                        type="text"
-                        placeholder="Contoh: IT Festival MI Polsri 2024"
-                        value={certEvent}
-                        onChange={(e) => setCertEvent(e.target.value)}
-                        className="w-full px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-lg text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-accent"
-                      />
-                    </div>
+                    <>
+                      <div className="md:col-span-2 space-y-1.5">
+                        <label className="text-xs text-slate-300 font-ibm-plex-mono uppercase tracking-wider block font-bold">Nama Event / Penyelenggara</label>
+                        <input
+                          type="text"
+                          placeholder="Contoh: IT Festival MI Polsri 2024"
+                          value={certEvent}
+                          onChange={(e) => setCertEvent(e.target.value)}
+                          className="w-full px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-lg text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-accent"
+                        />
+                      </div>
+                      <div className="md:col-span-2 space-y-1.5">
+                        <label className="text-xs text-slate-300 font-ibm-plex-mono uppercase tracking-wider block font-bold">Link Sertifikat / Kredensial (Opsional)</label>
+                        <input
+                          type="text"
+                          placeholder="Contoh: https://drive.google.com/..."
+                          value={certLink}
+                          onChange={(e) => setCertLink(e.target.value)}
+                          className="w-full px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-lg text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-accent"
+                        />
+                      </div>
+                    </>
                   )}
 
                   <div className="md:col-span-2 space-y-1.5">
@@ -442,12 +457,37 @@ export default function CertificationsTab({ showMsg }) {
                   <div key={c.id} className="p-4 rounded-lg border border-slate-800 bg-slate-900/15 flex justify-between items-center gap-4">
                     <div>
                       <span className="font-semibold text-white text-sm block leading-snug">{c.title}</span>
-                      <span className="text-xs text-slate-400 block mt-1">{c.issuer}</span>
+                      <span className="text-xs text-slate-400 block mt-1">{c.issuer} ({c.period})</span>
+                      
+                      {/* Action Links & Previews */}
+                      <div className="flex flex-wrap gap-3 mt-2 text-xs font-ibm-plex-mono">
+                        {c.link && c.link !== "#" && (
+                          <a
+                            href={c.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-accent hover:underline flex items-center gap-1"
+                          >
+                            <span>Link Kredensial</span>
+                            <LuExternalLink size={11} />
+                          </a>
+                        )}
+                        {c.image && (
+                          <button
+                            type="button"
+                            onClick={() => setSelectedPreviewImage(c.image)}
+                            className="text-blue-400 hover:underline flex items-center gap-1"
+                          >
+                            <span>Lihat Sertifikat</span>
+                            <LuEye size={11} />
+                          </button>
+                        )}
+                      </div>
                     </div>
                     <div className="flex items-center gap-2 shrink-0">
                       <button
                         onClick={() => handleStartEdit(c, "certification")}
-                        className="p-2 rounded bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-colors"
+                        className="p-2 rounded bg-slate-900 border border-slate-800 text-slate-450 hover:text-white transition-colors"
                       >
                         <LuPencil size={14} />
                       </button>
@@ -471,10 +511,33 @@ export default function CertificationsTab({ showMsg }) {
                       <h4 className="font-bold text-white text-sm leading-snug">{ach.title}</h4>
                       <p className="text-xs text-accent mt-0.5">{ach.event} ({ach.period})</p>
                       <p className="text-xs text-slate-400 mt-2">{ach.description.substring(0, 100)}...</p>
+
+                      {/* Action Links & Previews */}
+                      <div className="flex flex-wrap gap-3 mt-3 text-xs font-ibm-plex-mono">
+                        {ach.link && ach.link !== "#" && (
+                          <a
+                            href={ach.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-accent hover:underline flex items-center gap-1"
+                          >
+                            <span>Link Kredensial / Sertifikat</span>
+                            <LuExternalLink size={11} />
+                          </a>
+                        )}
+                      </div>
+
                       {ach.images && ach.images.length > 0 && (
                         <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
                           {ach.images.map((img, i) => (
-                            <img key={i} src={img} alt="doc" className="w-10 h-10 object-cover rounded border border-slate-800 shrink-0" />
+                            <img
+                              key={i}
+                              src={img}
+                              alt="doc"
+                              className="w-10 h-10 object-cover rounded border border-slate-800 shrink-0 cursor-pointer hover:border-accent transition-colors"
+                              onClick={() => setSelectedPreviewImage(img)}
+                              title="Klik untuk memperbesar"
+                            />
                           ))}
                         </div>
                       )}
@@ -506,6 +569,32 @@ export default function CertificationsTab({ showMsg }) {
             </div>
           )}
         </>
+      )}
+      {/* Image Preview Modal */}
+      {selectedPreviewImage && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm"
+          onClick={() => setSelectedPreviewImage(null)}
+        >
+          <div
+            className="relative max-w-4xl w-full bg-slate-900 border border-slate-800 rounded-lg p-2 overflow-hidden shadow-2xl flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setSelectedPreviewImage(null)}
+              className="absolute top-4 right-4 p-2 rounded-full bg-slate-950/80 border border-slate-800 text-slate-450 hover:text-white transition-all z-10"
+              title="Tutup"
+            >
+              <LuX size={16} />
+            </button>
+            <img
+              src={selectedPreviewImage}
+              alt="Pratinjau Sertifikat"
+              className="max-w-full max-h-[85vh] object-contain rounded"
+            />
+          </div>
+        </div>
       )}
     </div>
   );

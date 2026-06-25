@@ -80,12 +80,12 @@ export async function POST(request) {
     }
 
     if (type === "achievement") {
-      const { title, event, period, description, images } = body;
+      const { title, event, period, description, images, link } = body;
       if (!title || !event || !period || !description || !Array.isArray(images)) {
         return NextResponse.json({ error: "Judul, acara, periode, deskripsi, dan foto (images) harus diisi." }, { status: 400 });
       }
       const newAch = await prisma.achievement.create({
-        data: { title, event, period, description, images },
+        data: { title, event, period, description, images, link: link || null },
       });
       return NextResponse.json(newAch, { status: 201 });
     }
@@ -134,13 +134,13 @@ export async function PUT(request) {
     }
 
     if (type === "achievement") {
-      const { title, event, period, description, images } = body;
+      const { title, event, period, description, images, link } = body;
       if (!title || !event || !period || !description || !Array.isArray(images)) {
         return NextResponse.json({ error: "Judul, acara, periode, deskripsi, dan foto (images) harus diisi." }, { status: 400 });
       }
       const updated = await prisma.achievement.update({
         where: { id },
-        data: { title, event, period, description, images },
+        data: { title, event, period, description, images, link: link || null },
       });
       return NextResponse.json(updated);
     }
