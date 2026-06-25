@@ -53,7 +53,7 @@ export default function Experience() {
 
   return (
     <section id="experience" className="py-24 border-t border-slate-900 bg-slate-950/40 relative">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+      <div className="max-w-7xl 2xl:max-w-[90rem] 3xl:max-w-[110rem] mx-auto px-6 md:px-12 relative z-10">
         
         {/* Header */}
         <div className="text-center mb-16">
@@ -65,7 +65,7 @@ export default function Experience() {
         </div>
 
         {/* Experience Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {loading ? (
             // Skeleton loading cards
             [1, 2, 3].map((n) => (

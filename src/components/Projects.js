@@ -35,7 +35,7 @@ export default function Projects() {
 
   return (
     <section id="projects" className="py-24 border-t border-slate-900 bg-slate-950/10 relative">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+      <div className="max-w-7xl 2xl:max-w-[90rem] 3xl:max-w-[110rem] mx-auto px-6 md:px-12 relative z-10">
         
         {/* Header */}
         <div className="text-center mb-16">
@@ -47,7 +47,7 @@ export default function Projects() {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {loading ? (
             // Skeleton Loader
             [1, 2].map((n) => (

@@ -79,28 +79,43 @@ export default function Navbar() {
 
       {/* Mobile Menu Drawer */}
       <div
-        className={`md:hidden fixed top-[60px] left-0 w-full bg-slate-950/95 backdrop-blur-lg border-b border-slate-800 transition-all duration-300 overflow-hidden ${
-          isOpen ? "max-h-screen py-6 opacity-100" : "max-h-0 py-0 opacity-0 pointer-events-none"
+        className={`md:hidden fixed inset-0 h-screen w-screen bg-background transition-all duration-300 ease-in-out z-50 flex flex-col p-6 ${
+          isOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
         }`}
       >
-        <div className="flex flex-col items-center gap-5 px-6">
-          {navLinks.map((link) => (
+        {/* Header Close inside drawer */}
+        <div className="flex justify-between items-center pb-4 border-b border-slate-900">
+          <span className="font-audiowide text-xl tracking-wider text-white">
+            AR<span className="text-neon-green">YA</span>
+          </span>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="text-slate-300 hover:text-neon-green transition-colors p-1"
+            aria-label="Close Menu"
+          >
+            <LuX size={26} />
+          </button>
+        </div>
+
+        {/* Full-screen Centered Navigation Links */}
+        <div className="flex-1 flex flex-col justify-center items-center gap-6 px-6">
+          {navLinks.map((link, idx) => (
             <a
               key={link.name}
               href={link.href}
               onClick={() => setIsOpen(false)}
-              className="text-base font-medium text-slate-300 hover:text-neon-green font-poppins transition-colors duration-300"
+              className="text-xl font-medium text-slate-350 hover:text-neon-green font-poppins transition-colors duration-200 transform hover:scale-105"
             >
               {link.name}
             </a>
           ))}
-          <div className="py-1">
+          <div className="py-2 border-t border-slate-900 w-full flex justify-center">
             <ThemeToggle />
           </div>
           <a
             href="#feedback"
             onClick={() => setIsOpen(false)}
-            className="w-full text-center py-2.5 rounded-full border border-neon-green text-neon-green text-sm font-semibold hover:bg-neon-green hover:text-slate-950 transition-all duration-300 font-ibm-plex-mono"
+            className="w-full max-w-xs text-center py-2.5 rounded-full border border-neon-green text-neon-green text-sm font-semibold hover:bg-neon-green hover:text-slate-950 transition-all duration-300 font-ibm-plex-mono"
           >
             Support Me
           </a>

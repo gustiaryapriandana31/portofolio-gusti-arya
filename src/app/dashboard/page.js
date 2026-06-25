@@ -125,7 +125,7 @@ export default function DashboardPage() {
       <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8">
         
         {/* Navigation Sidebar */}
-        <aside className="lg:col-span-1 flex flex-col gap-2">
+        <aside className="lg:col-span-1 flex flex-row lg:flex-col overflow-x-auto lg:overflow-x-visible pb-3 lg:pb-0 gap-2 scrollbar-none snap-x snap-mandatory shrink-0">
           {[
             { id: "education", name: "Pendidikan", icon: LuBookOpen },
             { id: "experience", name: "Pengalaman Kerja", icon: LuBriefcase },
@@ -142,7 +142,7 @@ export default function DashboardPage() {
                 onClick={() => {
                   setActiveTab(tab.id);
                 }}
-                className={`flex items-center gap-3 w-full py-3 px-4 rounded-lg text-left text-sm font-medium transition-all ${
+                className={`flex items-center gap-3 py-3 px-4 rounded-lg text-left text-sm font-medium transition-all whitespace-nowrap lg:whitespace-normal shrink-0 snap-start w-auto lg:w-full ${
                   isActive
                     ? "bg-accent/10 border border-accent/20 text-accent font-semibold text-glow"
                     : "bg-slate-900/30 border border-transparent hover:bg-slate-900/60 text-slate-400 hover:text-white"

@@ -33,12 +33,12 @@ export default function Education() {
         </div>
 
         {/* Timeline */}
-        <div className="relative border-l-2 border-slate-800 ml-4 md:ml-8 pl-8 md:pl-12 space-y-12">
+        <div className="relative border-l-2 border-slate-800 ml-2 sm:ml-4 md:ml-8 pl-6 sm:pl-8 md:pl-12 space-y-12">
           {loading ? (
             // Skeleton Loading
             [1, 2].map((n) => (
               <div key={n} className="relative animate-pulse">
-                <div className="absolute -left-[45px] md:-left-[61px] top-1.5 w-8 h-8 rounded-full bg-slate-900 border-2 border-slate-700 flex items-center justify-center text-slate-700">
+                <div className="absolute -left-[41px] sm:-left-[49px] md:-left-[61px] top-1.5 w-8 h-8 rounded-full bg-slate-900 border-2 border-slate-700 flex items-center justify-center text-slate-700">
                   <LuGraduationCap size={16} />
                 </div>
                 <div className="glow-card p-6 md:p-8">
@@ -53,7 +53,7 @@ export default function Education() {
               <div key={edu.id || idx} className="relative">
                 
                 {/* Icon Marker */}
-                <div className="absolute -left-[45px] md:-left-[61px] top-1.5 w-8 h-8 rounded-full bg-slate-950 border-2 border-neon-green flex items-center justify-center text-neon-green shadow-[0_0_10px_rgba(0,255,153,0.3)]">
+                <div className="absolute -left-[41px] sm:-left-[49px] md:-left-[61px] top-1.5 w-8 h-8 rounded-full bg-slate-950 border-2 border-neon-green flex items-center justify-center text-neon-green shadow-[0_0_10px_rgba(0,255,153,0.3)]">
                   <LuGraduationCap size={16} />
                 </div>
 

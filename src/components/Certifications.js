@@ -33,7 +33,7 @@ export default function Certifications() {
 
   return (
     <section id="certifications" className="py-24 border-t border-slate-900 bg-slate-950/40 relative">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+      <div className="max-w-7xl 2xl:max-w-[90rem] 3xl:max-w-[110rem] mx-auto px-6 md:px-12 relative z-10">
         
         {/* Header */}
         <div className="text-center mb-16">
@@ -50,7 +50,7 @@ export default function Certifications() {
             <LuTrophy className="text-neon-green" size={24} />
             <span>Prestasi Kompetisi (Achievements)</span>
           </h4>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {loading ? (
               [1, 2, 3].map((n) => (
                 <div key={n} className="glow-card p-6 border border-slate-800/80 animate-pulse">
@@ -245,7 +245,7 @@ export default function Certifications() {
           onClick={() => setSelectedCert(null)}
         >
           <div
-            className="relative max-w-4xl w-full bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl flex flex-col md:flex-row text-slate-100 font-poppins animate-scale-up"
+            className="relative max-w-4xl w-full bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl flex flex-col md:flex-row text-slate-300 font-poppins animate-scale-up"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -291,19 +291,19 @@ export default function Certifications() {
                 <div className="space-y-4 pt-4 border-t border-slate-850">
                   <div className="space-y-1">
                     <span className="text-[9px] uppercase font-ibm-plex-mono text-slate-500 font-bold tracking-wider block">Credential ID</span>
-                    <p className="text-xs font-ibm-plex-mono text-slate-200 select-all truncate" title={selectedCert.id}>
+                    <p className="text-xs font-ibm-plex-mono text-slate-300 select-all truncate" title={selectedCert.id}>
                       {selectedCert.id.toUpperCase()}
                     </p>
                   </div>
 
                   <div className="space-y-1">
                     <span className="text-[9px] uppercase font-ibm-plex-mono text-slate-500 font-bold tracking-wider block">Tanggal Terbit</span>
-                    <p className="text-xs text-slate-200">{selectedCert.period}</p>
+                    <p className="text-xs text-slate-300">{selectedCert.period}</p>
                   </div>
 
                   <div className="space-y-1">
                     <span className="text-[9px] uppercase font-ibm-plex-mono text-slate-500 font-bold tracking-wider block">Organisasi Penerbit</span>
-                    <p className="text-xs text-slate-200">{selectedCert.issuer}</p>
+                    <p className="text-xs text-slate-300">{selectedCert.issuer}</p>
                   </div>
 
                   <div className="space-y-1">

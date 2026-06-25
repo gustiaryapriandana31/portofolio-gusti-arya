@@ -45,7 +45,7 @@ export default function DetailModal({
     >
       {/* Modal Container Card */}
       <div
-        className="relative max-w-3xl w-full max-h-[85vh] bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl flex flex-col text-slate-100 font-poppins animate-scale-up"
+        className="relative max-w-3xl w-full max-h-[85vh] bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-2xl flex flex-col text-slate-300 font-poppins animate-scale-up"
         onClick={(e) => e.stopPropagation()} // Prevent closing on inside clicks
       >
         {/* Close Button */}
@@ -62,7 +62,7 @@ export default function DetailModal({
           
           {/* Swiper / Banner Image Container */}
           {images && images.length > 0 && (
-            <div className="w-full h-56 md:h-80 relative bg-slate-950 border-b border-slate-800/80">
+            <div className="w-full h-44 sm:h-56 md:h-80 relative bg-slate-950 border-b border-slate-800/80">
               <ImageSwiper images={images} className="h-full w-full object-cover" />
             </div>
           )}
@@ -72,7 +72,7 @@ export default function DetailModal({
             
             {/* Header info */}
             <div>
-              <h3 className="text-xl md:text-2xl font-bold font-poppins text-white leading-snug">
+              <h3 className="text-xl md:text-2xl font-bold font-poppins text-white leading-snug pr-8 sm:pr-0">
                 {title}
               </h3>
               <p className="text-sm font-semibold text-accent mt-1 uppercase tracking-wider">{subtitle}</p>
@@ -143,7 +143,7 @@ export default function DetailModal({
             <div className="space-y-2">
               <h4 className="text-xs uppercase font-ibm-plex-mono text-slate-400 tracking-wider font-bold">Deskripsi Lengkap:</h4>
               <div 
-                className="rich-text-renderer text-sm md:text-base leading-relaxed text-slate-200 overflow-x-auto"
+                className="rich-text-renderer text-sm md:text-base leading-relaxed text-slate-300 overflow-x-auto"
                 dangerouslySetInnerHTML={{ __html: htmlContent }}
               />
             </div>

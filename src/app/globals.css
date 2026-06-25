@@ -429,20 +429,22 @@ body {
 }
 
 /* Premium Tilted Certification Cards with hover straightening */
-.cert-card-tilt-left {
-  transform: rotate(-2.5deg) !important;
-  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease !important;
-}
+@media (min-width: 768px) {
+  .cert-card-tilt-left {
+    transform: rotate(-2.5deg) !important;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease !important;
+  }
 
-.cert-card-tilt-right {
-  transform: rotate(2.5deg) !important;
-  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease !important;
-}
+  .cert-card-tilt-right {
+    transform: rotate(2.5deg) !important;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease !important;
+  }
 
-.cert-card-tilt-left:hover,
-.cert-card-tilt-right:hover {
-  transform: rotate(0deg) scale(1.04) !important;
-  z-index: 20 !important;
+  .cert-card-tilt-left:hover,
+  .cert-card-tilt-right:hover {
+    transform: rotate(0deg) scale(1.04) !important;
+    z-index: 20 !important;
+  }
 }
 
 /* Custom scrollbar for Certifications horizontal track */
@@ -469,6 +471,15 @@ body {
 
 #certifications-track::-webkit-scrollbar-thumb:hover {
   background: var(--accent-hover) !important;
+}
+
+/* Hide scrollbars for chrome/safari and firefox/ie */
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;
+}
+.scrollbar-none {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 }
 
 

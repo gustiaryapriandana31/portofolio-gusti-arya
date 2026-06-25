@@ -119,7 +119,7 @@ export default function Hero() {
 
         {/* Right Column: Profile Image + Orbit Animations */}
         <div className="md:col-span-5 flex justify-center items-center order-1 md:order-2">
-          <div className="relative w-[280px] h-[280px] sm:w-[350px] sm:h-[350px] md:w-[380px] md:h-[380px] aspect-square shrink-0">
+          <div className="relative w-[250px] h-[250px] xs:w-[280px] xs:h-[280px] sm:w-[350px] sm:h-[350px] md:w-[380px] md:h-[380px] aspect-square shrink-0">
             {/* Pulsing Backglow */}
             <div className="absolute inset-4 rounded-full bg-neon-green/10 filter blur-xl animate-pulse-slow" />
 
@@ -130,7 +130,7 @@ export default function Hero() {
                   src="/foto-profil.jpg"
                   alt="M. Gusti Arya Priandana"
                   fill
-                  sizes="(max-w-768px) 100vw, 380px"
+                  sizes="(max-width: 768px) 100vw, 380px"
                   priority
                   className="object-cover object-top scale-100 hover:scale-105 transition-all duration-500"
                 />
