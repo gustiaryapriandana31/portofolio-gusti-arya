@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { LuPlus, LuPencil, LuTrash2, LuX, LuUpload, LuEye, LuExternalLink } from "react-icons/lu";
+import { compressImage } from "@/lib/imageCompressor";
 
 export default function CertificationsTab({ showMsg }) {
   const [certsData, setCertsData] = useState({ certifications: [], achievements: [] });
@@ -82,12 +83,13 @@ export default function CertificationsTab({ showMsg }) {
     if (!files || files.length === 0) return;
 
     setUploadingFiles(true);
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append("files", files[i]);
-    }
-
     try {
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        const compressed = await compressImage(files[i]);
+        formData.append("files", compressed);
+      }
+
       const res = await fetch("/api/upload", {
         method: "POST",
         body: formData,
@@ -305,9 +307,11 @@ export default function CertificationsTab({ showMsg }) {
                                   const files = e.target.files;
                                   if (!files || files.length === 0) return;
                                   setUploadingFiles(true);
-                                  const formData = new FormData();
-                                  formData.append("files", files[0]);
                                   try {
+                                    const compressed = await compressImage(files[0]);
+                                    const formData = new FormData();
+                                    formData.append("files", compressed);
+                                    
                                     const res = await fetch("/api/upload", { method: "POST", body: formData });
                                     const data = await res.json();
                                     if (!res.ok) throw new Error(data.error || "Gagal upload.");

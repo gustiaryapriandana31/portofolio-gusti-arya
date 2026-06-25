@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { LuPlus, LuPencil, LuTrash2, LuX, LuUpload, LuCheck, LuChevronDown } from "react-icons/lu";
 import RichTextEditor from "./RichTextEditor";
 import { sanitizeHtml } from "@/lib/sanitize";
+import { compressImage } from "@/lib/imageCompressor";
 
 export default function ProjectsTab({ showMsg }) {
   const [projectsList, setProjectsList] = useState([]);
@@ -81,12 +82,13 @@ export default function ProjectsTab({ showMsg }) {
     if (!files || files.length === 0) return;
 
     setUploadingFiles(true);
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append("files", files[i]);
-    }
-
     try {
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        const compressed = await compressImage(files[i]);
+        formData.append("files", compressed);
+      }
+
       const res = await fetch("/api/upload", {
         method: "POST",
         body: formData,

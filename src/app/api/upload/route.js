@@ -1,7 +1,4 @@
 import { NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import { join } from "path";
-import * as fs from "fs/promises";
 
 export async function POST(request) {
   try {
@@ -13,15 +10,6 @@ export async function POST(request) {
         { error: "Tidak ada berkas yang diunggah." },
         { status: 400 }
       );
-    }
-
-    const uploadDir = join(process.cwd(), "public", "uploads");
-    
-    // Ensure upload directory exists
-    try {
-      await mkdir(uploadDir, { recursive: true });
-    } catch (e) {
-      // Directory might already exist
     }
 
     const filePaths = [];
@@ -36,39 +24,16 @@ export async function POST(request) {
       }
 
       const buffer = Buffer.from(bytes);
-
-      // Create a unique file name and limit its length to avoid Windows MAX_PATH issues
-      const originalName = file.name;
-      const lastDot = originalName.lastIndexOf(".");
-      const extension = lastDot !== -1 ? originalName.substring(lastDot + 1) : "";
-      const baseName = lastDot !== -1 ? originalName.substring(0, lastDot) : originalName;
+      const base64String = buffer.toString("base64");
+      const mimeType = file.type || "image/jpeg";
       
-      const cleanBaseName = baseName.replace(/[^a-zA-Z0-9-]/g, "_").substring(0, 50);
-      const uniqueName = `${Date.now()}-${cleanBaseName}${extension ? "." + extension : ""}`;
-      const filePath = join(uploadDir, uniqueName);
-
-      try {
-        await writeFile(filePath, buffer);
-      } catch (writeErr) {
-        throw new Error(`Gagal menulis file ke ${filePath}: ${writeErr.message}`);
-      }
-
-      filePaths.push(`/uploads/${uniqueName}`);
+      // Store as Base64 Data URL
+      filePaths.push(`data:${mimeType};base64,${base64String}`);
     }
 
     return NextResponse.json({ paths: filePaths });
   } catch (error) {
     console.error("Upload API error:", error);
-    
-    // Write detailed log file for diagnostic purposes
-    try {
-      const errorLogPath = join(process.cwd(), "upload_error.log");
-      const errorLogContent = `[${new Date().toISOString()}] Upload failed:\nMessage: ${error.message}\nStack: ${error.stack}\n\n`;
-      await fs.appendFile(errorLogPath, errorLogContent);
-    } catch (logErr) {
-      console.error("Failed to write to upload_error.log:", logErr);
-    }
-
     return NextResponse.json(
       { error: `Gagal mengunggah berkas: ${error.message}` },
       { status: 500 }
